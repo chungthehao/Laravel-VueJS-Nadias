@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]); // Tạo ra 3 routes có tên: verification.resend/notice/verify
 
-Route::get('/home', 'HomeController@index')->name('home');
+# Middleware 'verified' đá ng dùng qua http://dev.nadias/email/verify nếu email chưa đc verify
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'); 
