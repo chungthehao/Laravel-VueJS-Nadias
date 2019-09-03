@@ -23,6 +23,13 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function upsert()
+    {
+        $this->authorize('manage', 'App\Category');
+
+        return ['success' => true];
+    }
+
     /**
      * Show the form for creating a new resource.
      *

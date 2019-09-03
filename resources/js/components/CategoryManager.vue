@@ -27,6 +27,13 @@ export default {
             categories: _.cloneDeep(this.initialCategories)
         };
     },
+    created() {
+        axios.post('/api/categories/upsert').then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        });
+    },
     methods: {
         removeCategory(index) {
             if (confirm('Are you sure?')) {

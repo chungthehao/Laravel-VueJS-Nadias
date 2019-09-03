@@ -35,11 +35,13 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class, // ...
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+            'auth:api' // Api nào cũng chạy middleware này (khỏi setup cho từng route trong api.php)
         ],
     ];
 
