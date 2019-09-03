@@ -17,3 +17,5 @@ Auth::routes(['verify' => true]); // Tạo ra 3 routes có tên: verification.re
 Route::get('/', 'HomeController@index')->name('home');//->middleware('verified');
 
 Route::get('/categories', 'CategoryController@index');
+
+Route::get('/menu-editor', 'AdminController@menu')->middleware('can:edit-menu');
