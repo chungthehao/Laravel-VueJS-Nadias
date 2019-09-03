@@ -19,6 +19,8 @@ import MenuItem from './MenuItem.vue';
 export default {
     props: ['categories'],
     router: new VueRouter({
+        mode: 'history',
+        base: 'menu-editor',
         routes: [
             {
                 path: '/categories',
@@ -33,6 +35,11 @@ export default {
                 path: '/add-item',
                 name: 'add-item',
                 component: MenuItem
+            },
+            // Nhung route chua match voi nhung cai tren
+            {
+                path: '*',
+                redirect: '/'
             },
         ]
     })
