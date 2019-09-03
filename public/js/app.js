@@ -2028,7 +2028,18 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    save: function save() {//
+    save: function save() {
+      var _this = this;
+
+      axios.post('/api/menu-items/add', this.item).then(function (res) {
+        //console.log(res);
+        _this.$router.push('/');
+      })["catch"](function (err) {
+        //console.log(err.response.data.errors);
+        // - Muc dich de sap xep lai data de dua va state 'errors'
+        var messages = Object.values(err.response.data.errors);
+        _this.errors = [].concat.apply([], messages); //console.log(this.errors);
+      });
     }
   }
 });
@@ -38208,6 +38219,7 @@ var render = function() {
     "form",
     {
       staticClass: "item-form",
+      attrs: { novalidate: "" },
       on: {
         submit: function($event) {
           $event.preventDefault()
