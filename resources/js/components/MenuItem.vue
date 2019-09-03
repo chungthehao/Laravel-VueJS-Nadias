@@ -19,6 +19,8 @@
             </select>
         </div>
 
+        <drop-zone :options="dropzoneOptions" id="dz" ref="dropzone"></drop-zone>
+
         <button type="submit">Save</button>
 
         <ul>
@@ -28,10 +30,27 @@
 </template>
 
 <script>
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+
 export default {
+    components: {
+        dropZone: vue2Dropzone
+    },
     props: ['initial-categories'],
     data() {
         return {
+            dropzoneOptions: {
+                url: '/api/add-image',
+                thumbnailWidth: 200,
+                headers: {
+                    'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+                },
+                success(file, res) {
+                    // res la ten cua cai hinh (do laravel minh return ve)
+                    file.filename = res // de tam vo filename de lat lay ra gan vo state
+                }
+            },
             item: {
                 name: '',
                 price: 0.00,
@@ -44,6 +63,11 @@ export default {
     },
     methods: {
         save() {
+            let files = this.$refs.dropzone.getAcceptedFiles();
+            if (files.length > 0 && files[0].filename) {
+                this.item.image = files[0].filename;
+            }
+
             axios.post('/api/menu-items/add', this.item)
                 .then(res => {
                     //console.log(res);
