@@ -18,5 +18,8 @@ export default new Vuex.Store({
         REMOVE_CATEGORY(state, index) {
             state.categories.splice(index, 1);
         },
+        UPDATE_CATEGORY(state, { index, property, value }) {
+            state.categories[index][property] = value
+        },
     },
 })
