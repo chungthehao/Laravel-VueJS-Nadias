@@ -2035,6 +2035,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
+
+function newItem() {
+  return {
+    name: '',
+    price: 0.00,
+    image: '',
+    category_id: '',
+    description: ''
+  };
+}
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     dropZone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default.a
@@ -2053,13 +2064,7 @@ __webpack_require__.r(__webpack_exports__);
           file.filename = res; // de tam vo filename de lat lay ra gan vo state
         }
       },
-      item: {
-        name: '',
-        price: 0.00,
-        image: '',
-        category_id: '',
-        description: ''
-      },
+      item: newItem(),
       errors: []
     };
   },
@@ -2071,6 +2076,10 @@ __webpack_require__.r(__webpack_exports__);
         return _this.item = res.data;
       });
     }
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.item = newItem();
+    next();
   },
   methods: {
     save: function save() {
