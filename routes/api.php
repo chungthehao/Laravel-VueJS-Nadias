@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/categories/upsert', 'CategoryController@upsert');
-// Route::get('/categories/{category}/items', 'CategoryController@items');
+Route::get('/categories/{category}/items', 'CategoryController@items');
 Route::delete('/categories/{category}', 'CategoryController@destroy');
 
 Route::post('/menu-items/add', 'MenuItemController@store');
