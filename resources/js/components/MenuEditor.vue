@@ -6,7 +6,7 @@
           <router-link :to="{name: 'items'}">Items</router-link>
           <router-link :to="{name: 'add-item'}">Add Item</router-link>
       </div>
-      <router-view :initial-categories="categories"></router-view>
+      <router-view></router-view>
   </div>
 </template>
 
@@ -15,11 +15,16 @@ import VueRouter from 'vue-router';
 import CategoryManager from './CategoryManager.vue';
 import MenuItem from './MenuItem.vue';
 import MenuItemList from './MenuItemList.vue';
+import store from '../store';
 
 // Vue.use(VueRouter); // Setup plugin. Ko can vi Vue available in global scope, no tu lam
 
 export default {
-    props: ['categories'],
+    store, // also make it available in child components
+    props: ['categories'], // Van nhan categories nay tu blade cua laravel, dung de set vo store
+    created() {
+        this.$store.commit('SET_CATEGORIES', _.cloneDeep(this.categories));
+    },
     router: new VueRouter({
         mode: 'history',
         base: 'menu-editor',
