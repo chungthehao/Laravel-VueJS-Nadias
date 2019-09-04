@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MenuItemPost;
 use App\MenuItem;
 use Illuminate\Http\Request;
 
@@ -33,22 +34,22 @@ class MenuItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuItemPost $request)
     {
-        // Cach dung gate trong controller
-        if ( ! $request->user()->can('edit-menu')) {
-            return response('Unauthorized', 403);
-        }
+        # Cach dung gate trong controller
+        // if ( ! $request->user()->can('edit-menu')) {
+        //     return response('Unauthorized', 403);
+        // }
 
-        $request->validate([
-            'name' => 'required|max:128',
-            'description' => 'required|max:512',
-            'price' => 'required|numeric|min:0',
-            'category_id' => 'required|numeric',
-            'image' => 'required',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|max:128',
+        //     'description' => 'required|max:512',
+        //     'price' => 'required|numeric|min:0',
+        //     'category_id' => 'required|numeric',
+        //     'image' => 'required',
+        // ]);
 
-        MenuItem::create($request->post());
+        MenuItem::create($request->validated());
     }
 
     /**
@@ -80,9 +81,9 @@ class MenuItemController extends Controller
      * @param  \App\MenuItem  $menuItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MenuItem $menuItem)
+    public function update(MenuItemPost $request, MenuItem $menuItem)
     {
-        //
+        $menuItem->update($request->validated());
     }
 
     /**
