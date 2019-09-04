@@ -19,6 +19,8 @@
             </select>
         </div>
 
+        <img v-if="id && item.image" :src="`/storage/images/${item.image}`" alt="" width="200">
+
         <drop-zone :options="dropzoneOptions" id="dz" ref="dropzone"></drop-zone>
 
         <button type="submit">Save</button>
@@ -37,7 +39,7 @@ export default {
     components: {
         dropZone: vue2Dropzone
     },
-    props: ['initial-categories'],
+    props: ['initial-categories', 'id'],
     data() {
         return {
             dropzoneOptions: {
@@ -61,6 +63,13 @@ export default {
             errors: []
         };
     },
+    created() {
+        if (this.id) {
+            axios
+                .get(`/api/menu-items/${this.id}`)
+                .then(res => this.item = res.data);
+        }
+    },
     methods: {
         save() {
             let files = this.$refs.dropzone.getAcceptedFiles();
@@ -68,7 +77,12 @@ export default {
                 this.item.image = files[0].filename;
             }
 
-            axios.post('/api/menu-items/add', this.item)
+            let url = '/api/menu-items/add'
+            if (this.id) {
+                url = '/api/menu-items/' + this.id // se la method post de edit
+            }
+
+            axios.post(url, this.item)
                 .then(res => {
                     //console.log(res);
                     this.$router.push('/');
