@@ -3,7 +3,7 @@
         <select v-model="categoryId" @change="fetchItems" required>
             <option value="">Select a category</option>
             <option 
-                v-for="cat in initialCategories"
+                v-for="cat in categories"
                 :key="cat.id"
                 :value="cat.id">{{cat.name}}</option>
         </select>
@@ -19,17 +19,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-    props: ['initialCategories'],
     data() {
         return {
-            categoryId: this.initialCategories[0].id,
+            // categoryId: this.categories[0].id, // !!! Khong access dc computed trong data !!!
+            categoryId: this.$store.state.categories[0].id, // Cach thay the!
             items: []
         };
     },
     created() {
         this.fetchItems();
     },
+    computed: mapState({
+        categories: 'categories'
+    }),
     methods: {
         fetchItems() {
             axios

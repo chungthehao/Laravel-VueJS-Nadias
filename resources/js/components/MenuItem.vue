@@ -13,7 +13,7 @@
             <select v-model="item.category_id" required>
                 <option value="">Select a category</option>
                 <option 
-                    v-for="cat in initialCategories"
+                    v-for="cat in categories"
                     :key="cat.id"
                     :value="cat.id">{{cat.name}}</option>
             </select>
@@ -34,6 +34,7 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import { mapState } from 'vuex';
 
 function newItem() {
     return {
@@ -49,7 +50,7 @@ export default {
     components: {
         dropZone: vue2Dropzone
     },
-    props: ['initial-categories', 'id'],
+    props: ['id'], // id dc truyen qua param router link
     data() {
         return {
             dropzoneOptions: {
@@ -67,6 +68,14 @@ export default {
             errors: []
         };
     },
+    // computed: {
+    //     categories() {
+    //         return this.$store.state.categories
+    //     },
+    // },
+    computed: mapState({
+        categories: 'categories'
+    }),
     created() {
         if (this.id) {
             axios
